@@ -39,31 +39,30 @@ public class AtmsServiceImpl implements AtmsService {
 
         // we can split work per region, tasks in different regions are not related at all
         tasksListByRegionId.values().parallelStream().forEach(list -> {
-            if (!list.isEmpty()) {
-                var regionId = list.get(0).getRegion();
-                Set<Integer> result = new LinkedHashSet<>();
-                List<Integer> list1 = new ArrayList<>();
-                List<Integer> list2 = new ArrayList<>();
-                List<Integer> list3 = new ArrayList<>();
-                List<Integer> list4 = new ArrayList<>();
+            var regionId = list.get(0).getRegion(); // list is always not empty
 
-                for (TaskDto task : list) {
-                    var requestType = task.getRequestType();
-                    var atmId = task.getAtmId();
-                    switch (requestType) {
-                        case FAILURE_RESTART -> list1.add(atmId);
-                        case PRIORITY -> list2.add(atmId);
-                        case SIGNAL_LOW -> list3.add(atmId);
-                        default -> list4.add(atmId);
-                    }
+            Set<Integer> result = new LinkedHashSet<>(); // unique with order as items are added
+            List<Integer> list1 = new ArrayList<>();
+            List<Integer> list2 = new ArrayList<>();
+            List<Integer> list3 = new ArrayList<>();
+            List<Integer> list4 = new ArrayList<>();
+
+            for (TaskDto task : list) {
+                var requestType = task.getRequestType();
+                var atmId = task.getAtmId();
+                switch (requestType) {
+                    case FAILURE_RESTART -> list1.add(atmId);
+                    case PRIORITY -> list2.add(atmId);
+                    case SIGNAL_LOW -> list3.add(atmId);
+                    default -> list4.add(atmId);
                 }
-                // because the result is LinkedHashSet then we will not add duplicates
-                result.addAll(list1);
-                result.addAll(list2);
-                result.addAll(list3);
-                result.addAll(list4);
-                mapRegionToSetOfAtms.put(regionId, result);
             }
+            // because the result is LinkedHashSet then we will not add duplicates
+            result.addAll(list1);
+            result.addAll(list2); // each addAll will only add new elements to the set
+            result.addAll(list3);
+            result.addAll(list4);
+            mapRegionToSetOfAtms.put(regionId, result);
         });
 
         var end2 = Instant.now().toEpochMilli();
@@ -72,7 +71,7 @@ public class AtmsServiceImpl implements AtmsService {
         Set<Integer> orderedRegionSet = prepareRegionSet(tasks);
         // prepare the result with correct size
         List<ATMDto> result = new ArrayList<>(orderedRegionSet.size() * (Math.min(tasksSize, MAX_TASKS_SIZE_PER_REGION_IN_RESULT)));
-        // fill the list (we conter map<regionId, list of atm ids> to list of objects that have region id and the ATM id
+        // fill the list - convert map<regionId, list of atm ids> to list of objects that have region id and the ATM id
         for (Integer regionId : orderedRegionSet) {
             Set<Integer> listOfAtms = mapRegionToSetOfAtms.get(regionId);
             if (listOfAtms != null && !listOfAtms.isEmpty()) {
@@ -84,8 +83,8 @@ public class AtmsServiceImpl implements AtmsService {
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug(
-                    String.format("Time passed (1): %d, (2): %d, (3): %d. Input tasks: %d, output size: %d.",
-                            end1 - start, end2 - start, end3 - start, tasksSize, result.size())
+                    String.format("Time passed (3): %d, (2): %d, (1): %d. Input tasks: %d, output size: %d.",
+                            end3 - start, end2 - start, end1 - start, tasksSize, result.size())
             );
         }
 

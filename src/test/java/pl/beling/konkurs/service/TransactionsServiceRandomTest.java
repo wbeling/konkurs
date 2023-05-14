@@ -328,4 +328,37 @@ class TransactionsServiceRandomTest {
             assertEquals(input.size() * 2, output.size());
         }
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "100",
+            "1000",
+            "10000",
+            "100000"
+    })
+    void twoAccountsTests(int max) {
+        List<TransactionDto> input = new ArrayList<>();
+        for (int i = 0; i < max; i++) {
+            input.add(new TransactionDto()
+                    .amount(new BigDecimal(1))
+                    .creditAccount("000000000000000000000001")
+                    .debitAccount("000000000000000000000002"));
+        }
+        List<AccountDto> output = transactionsService.report(input);
+
+        assertNotNull(output);
+        assertEquals(2, output.size());
+
+        var account1 = output.get(0);
+        assertEquals("000000000000000000000001", account1.getAccount());
+        assertEquals(max, account1.getBalance().intValue());
+        assertEquals(max, account1.getCreditCount());
+        assertEquals(0, account1.getDebitCount());
+
+        var account2 = output.get(output.size() - 1);
+        assertEquals("000000000000000000000002", account2.getAccount());
+        assertEquals(-max, account2.getBalance().intValue());
+        assertEquals(0, account2.getCreditCount());
+        assertEquals(max, account2.getDebitCount());
+    }
 }

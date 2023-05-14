@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.util.StringJoiner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Account DTO - output
@@ -14,10 +15,10 @@ public class AccountDto {
     private String account;
 
     @JsonProperty("debitCount")
-    private Integer debitCount;
+    private AtomicInteger debitCount;
 
     @JsonProperty("creditCount")
-    private Integer creditCount;
+    private AtomicInteger creditCount;
 
     @JsonProperty("balance")
     private BigDecimal balance;
@@ -49,11 +50,11 @@ public class AccountDto {
      * @return debitCount
      */
     public Integer getDebitCount() {
-        return debitCount;
+        return debitCount.get();
     }
 
     public void setDebitCount(Integer debitCount) {
-        this.debitCount = debitCount;
+        this.debitCount = new AtomicInteger(debitCount);
     }
 
     /**
@@ -62,11 +63,11 @@ public class AccountDto {
      * @return creditCount
      */
     public Integer getCreditCount() {
-        return creditCount;
+        return creditCount.get();
     }
 
     public void setCreditCount(Integer creditCount) {
-        this.creditCount = creditCount;
+        this.creditCount = new AtomicInteger(creditCount);
     }
 
     /**
@@ -92,14 +93,14 @@ public class AccountDto {
                 .toString();
     }
 
-    public void subtractBalance(BigDecimal amount) {
-        setDebitCount(getDebitCount() + 1);
-        setBalance(getBalance().subtract(amount));
+    public synchronized void subtractBalance(BigDecimal amount) {
+        debitCount.incrementAndGet();
+        balance = balance.subtract(amount);
     }
 
-    public void addBalance(BigDecimal amount) {
-        setCreditCount(getCreditCount() + 1);
-        setBalance(getBalance().add(amount));
+    public synchronized void addBalance(BigDecimal amount) {
+        creditCount.incrementAndGet();
+        balance = balance.add(amount);
     }
 }
 

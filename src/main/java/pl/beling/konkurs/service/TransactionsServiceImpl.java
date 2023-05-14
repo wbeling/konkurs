@@ -30,11 +30,8 @@ public class TransactionsServiceImpl implements TransactionsService {
             String creditAccount = transaction.getCreditAccount();
             String debitAccount = transaction.getDebitAccount();
             // create an empty account in the map if this is the first time we got it
-            accountsMapById.putIfAbsent(creditAccount, new AccountDto(creditAccount));
-            accountsMapById.putIfAbsent(debitAccount, new AccountDto(debitAccount));
-
-            AccountDto accountDtoCredit = accountsMapById.get(creditAccount);
-            AccountDto accountDtoDebit = accountsMapById.get(debitAccount);
+            AccountDto accountDtoCredit = accountsMapById.computeIfAbsent(creditAccount, k -> new AccountDto(creditAccount));
+            AccountDto accountDtoDebit = accountsMapById.computeIfAbsent(debitAccount, k -> new AccountDto(debitAccount));
             // make the balance change
             accountDtoCredit.addBalance(transaction.getAmount());
             accountDtoDebit.subtractBalance(transaction.getAmount());
