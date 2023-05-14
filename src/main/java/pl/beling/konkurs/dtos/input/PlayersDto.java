@@ -7,10 +7,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import pl.beling.konkurs.dtos.output.ClanDto;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.StringJoiner;
+import java.util.*;
 
 /**
  * Players
@@ -21,7 +18,7 @@ public class PlayersDto {
 
     @JsonProperty("clans")
     @Valid
-    private List<ClanDto> clans = null;
+    private List<ClanDto> clans;
 
     /**
      * Number of players in a single group
@@ -48,11 +45,11 @@ public class PlayersDto {
     @Valid
     @Size(max = 20000)
     public List<ClanDto> getClans() {
-        return clans;
+        return Collections.unmodifiableList(clans);
     }
 
     public void setClans(List<ClanDto> clans) {
-        this.clans = clans;
+        this.clans = Collections.unmodifiableList(clans);
     }
 
     @Override
