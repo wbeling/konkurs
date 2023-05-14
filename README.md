@@ -1,5 +1,7 @@
 # Konkurs Application 
 
+[![SAST Scan](https://github.com/wbeling/konkurs/actions/workflows/sast.yml/badge.svg)](https://github.com/wbeling/konkurs/actions/workflows/sast.yml)
+
 To read the SAST (Static Application Security Testing) report go here: https://github.com/wbeling/konkurs/actions/workflows/sast.yml
 
 For testing use simple Dockerfile file like this:
