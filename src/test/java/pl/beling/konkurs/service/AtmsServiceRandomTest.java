@@ -3,7 +3,7 @@ package pl.beling.konkurs.service;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import pl.beling.konkurs.dtos.input.TaskDto;
+import pl.beling.konkurs.dtos.TaskDto;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -134,7 +134,6 @@ class AtmsServiceRandomTest {
     void testAlmostFull() {
         List<TaskDto> tasks = new ArrayList<>();
         Random random = new Random();
-        Map<Integer, Set<Integer>> mapRegionToAtms = new TreeMap<>();
         int maxRegions = 8000 + random.nextInt(2000);
         System.out.println("MaxRegions: " + maxRegions);
         List<Integer> regions = new ArrayList<>(9999);

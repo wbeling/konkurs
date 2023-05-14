@@ -1,14 +1,13 @@
 package pl.beling.konkurs.service;
 
 import org.junit.jupiter.api.RepeatedTest;
-import pl.beling.konkurs.dtos.input.PlayersDto;
-import pl.beling.konkurs.dtos.output.ClanDto;
+import pl.beling.konkurs.dtos.ClanDto;
+import pl.beling.konkurs.dtos.PlayersDto;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
@@ -17,20 +16,23 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class OnlineGameServiceRandomTest {
     private final OnlineGameService onlinegameService = new OnlineGameServiceImpl();
 
+    // Things to remember:
+    // size of the group: 1-1000
+    // clan number of player: 1-1000, but always less than the size of the group
+    // points: 1-100000
+    // number of clans - up to 20000
+
     @RepeatedTest(10)
     void randomMaxTest() {
         Random r = new Random();
         PlayersDto input = new PlayersDto();
-        // size of the group: 1-1000
         input.setGroupCount(1000);
-        // clan number of player: 1-1000, but always less than size of the group
-        // points: 1-100000
-        // number of clans - up to 20k
+
         List<ClanDto> list = new ArrayList<>();
         for (int i = 0; i < 20000; i++) {
             list.add(new ClanDto().numberOfPlayers(1 + r.nextInt(999)).points(r.nextInt(100000)));
         }
-        ;
+
         input.setClans(list);
 
         List<List<ClanDto>> result = onlinegameService.calculate(input);
@@ -41,16 +43,13 @@ class OnlineGameServiceRandomTest {
     void randomSmallClansTest() {
         Random r = new Random();
         PlayersDto input = new PlayersDto();
-        // size of the group: 1-1000
         input.setGroupCount(1000);
-        // clan number of player: 1-1000, but always less than size of the group
-        // points: 1-100000
-        // number of clans - up to 20k
+
         List<ClanDto> list = new ArrayList<>();
         for (int i = 0; i < 20000; i++) {
             list.add(new ClanDto().numberOfPlayers(1 + r.nextInt(9)).points(r.nextInt(100000)));
         }
-        ;
+
         input.setClans(list);
 
         List<List<ClanDto>> result = onlinegameService.calculate(input);
@@ -61,16 +60,13 @@ class OnlineGameServiceRandomTest {
     void randomBigClansTest() {
         Random r = new Random();
         PlayersDto input = new PlayersDto();
-        // size of the group: 1-1000
         input.setGroupCount(1000);
-        // clan number of player: 1-1000, but always less than size of the group
-        // points: 1-100000
-        // number of clans - up to 20k
+
         List<ClanDto> list = new ArrayList<>();
         for (int i = 0; i < 20000; i++) {
             list.add(new ClanDto().numberOfPlayers(450 + r.nextInt(549)).points(r.nextInt(100000)));
         }
-        ;
+
         input.setClans(list);
 
         List<List<ClanDto>> result = onlinegameService.calculate(input);
@@ -81,16 +77,14 @@ class OnlineGameServiceRandomTest {
     void randomWorstSizeClansTest() {
         Random r = new Random();
         PlayersDto input = new PlayersDto();
-        // size of the group: 1-1000
+
         input.setGroupCount(1000);
-        // clan number of player: 1-1000, but always less than size of the group
-        // points: 1-100000
-        // number of clans - up to 20k
+
         List<ClanDto> list = new ArrayList<>();
         for (int i = 0; i < 20000; i++) {
             list.add(new ClanDto().numberOfPlayers(1000).points(r.nextInt(100000)));
         }
-        ;
+
         input.setClans(list);
 
         List<List<ClanDto>> result = onlinegameService.calculate(input);

@@ -1,16 +1,14 @@
-package pl.beling.konkurs.dtos.input;
+package pl.beling.konkurs.dtos;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
-import java.util.Objects;
 import java.util.StringJoiner;
 
 /**
- * Task
+ * Task DTO - input
  */
 public class TaskDto {
     @JsonProperty("region")

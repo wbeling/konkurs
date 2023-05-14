@@ -6,15 +6,18 @@
 package pl.beling.konkurs.api;
 
 import jakarta.validation.Valid;
-import pl.beling.konkurs.dtos.output.ClanDto;
-import pl.beling.konkurs.dtos.input.PlayersDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import pl.beling.konkurs.dtos.ClanDto;
+import pl.beling.konkurs.dtos.PlayersDto;
 
 import java.util.List;
 
+/**
+ * API definition for Online Game
+ */
 @Validated
 public interface OnlineGameApi {
 

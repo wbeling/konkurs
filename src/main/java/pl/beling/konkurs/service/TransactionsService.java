@@ -1,7 +1,7 @@
 package pl.beling.konkurs.service;
 
-import pl.beling.konkurs.dtos.output.AccountDto;
-import pl.beling.konkurs.dtos.input.TransactionDto;
+import pl.beling.konkurs.dtos.AccountDto;
+import pl.beling.konkurs.dtos.TransactionDto;
 
 import java.util.List;
 

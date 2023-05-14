@@ -1,10 +1,10 @@
 package pl.beling.konkurs.service;
 
-import pl.beling.konkurs.dtos.input.TaskDto;
-import pl.beling.konkurs.dtos.output.ATMDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import pl.beling.konkurs.dtos.ATMDto;
+import pl.beling.konkurs.dtos.TaskDto;
 
 import java.time.Instant;
 import java.util.*;
@@ -21,20 +21,23 @@ public class AtmsServiceImpl implements AtmsService {
     public List<ATMDto> calculate(List<TaskDto> tasks) {
         var start = Instant.now().toEpochMilli();
 
-        int tasksSize = tasks.size();
+        int tasksSize = tasks.size(); // or just (t)
+        // this will contain the ordered list of atm ids per region
         Map<Integer, Set<Integer>> mapRegionToSetOfAtms = new ConcurrentHashMap<>(NUMBER_OF_STATUSES * MAX_TASKS_SIZE_PER_REGION_IN_RESULT);
 
-        Set<Integer> orderedRegionSet = prepareRegionSet(tasks);
-
-        var end1 = Instant.now().toEpochMilli();
-
         Map<Integer, List<TaskDto>> tasksListByRegionId = new HashMap<>();
+        // create a list for every region - we need to iterate over all tasks once (t)
         tasks.forEach(task -> {
             var regionId = task.getRegion();
-            var list = tasksListByRegionId.computeIfAbsent(regionId, k -> new ArrayList<>());
+            // create a list and add it to map if is not present
+            var list = tasksListByRegionId.computeIfAbsent(regionId, k -> new ArrayList<>()); // dynamic size because there is no limit of repeated tasks
+            // add task to list per region
             list.add(task);
         });
 
+        var end1 = Instant.now().toEpochMilli();
+
+        // we can split work per region, tasks in different regions are not related at all
         tasksListByRegionId.values().parallelStream().forEach(list -> {
             if (!list.isEmpty()) {
                 var regionId = list.get(0).getRegion();
@@ -54,7 +57,7 @@ public class AtmsServiceImpl implements AtmsService {
                         default -> list4.add(atmId);
                     }
                 }
-
+                // because the result is LinkedHashSet then we will not add duplicates
                 result.addAll(list1);
                 result.addAll(list2);
                 result.addAll(list3);
@@ -65,7 +68,11 @@ public class AtmsServiceImpl implements AtmsService {
 
         var end2 = Instant.now().toEpochMilli();
 
+        // prepare the ordered set of regions
+        Set<Integer> orderedRegionSet = prepareRegionSet(tasks);
+        // prepare the result with correct size
         List<ATMDto> result = new ArrayList<>(orderedRegionSet.size() * (Math.min(tasksSize, MAX_TASKS_SIZE_PER_REGION_IN_RESULT)));
+        // fill the list (we conter map<regionId, list of atm ids> to list of objects that have region id and the ATM id
         for (Integer regionId : orderedRegionSet) {
             Set<Integer> listOfAtms = mapRegionToSetOfAtms.get(regionId);
             if (listOfAtms != null && !listOfAtms.isEmpty()) {

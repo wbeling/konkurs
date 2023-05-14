@@ -3,8 +3,8 @@ package pl.beling.konkurs.service;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import pl.beling.konkurs.dtos.output.AccountDto;
-import pl.beling.konkurs.dtos.input.TransactionDto;
+import pl.beling.konkurs.dtos.AccountDto;
+import pl.beling.konkurs.dtos.TransactionDto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -19,6 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 class TransactionsServiceRandomTest {
     private final TransactionsService transactionsService = new TransactionsServiceImpl();
+
+    // Things to remember:
+    // no more than 100k transactions
+    // account number - always string containing 26 numbers
 
     @Test
     void testOneTransaction1() {
@@ -129,8 +133,8 @@ class TransactionsServiceRandomTest {
             "100",
             "1000",
             "10000",
-            "100000",
-            "1000000"
+            "50000",
+            "100000"
     })
     void testOneAmountAndCreditADebitB(int max) {
         List<TransactionDto> input = new ArrayList<>();
@@ -158,8 +162,8 @@ class TransactionsServiceRandomTest {
             "100",
             "1000",
             "10000",
-            "100000",
-            "1000000"
+            "50000",
+            "100000"
     })
     void testWithOneAmountAndRandomLimitedAccounts(int max) {
         List<TransactionDto> input = new ArrayList<>();
@@ -177,11 +181,10 @@ class TransactionsServiceRandomTest {
 
     @ParameterizedTest
     @CsvSource({
-            "100",
-            "1000",
-            "10000",
-            "100000",
-            "1000000"
+            "50",
+            "500",
+            "5000",
+            "50000"
     })
     void testRandomAmount(int max) {
         List<TransactionDto> input = new ArrayList<>();
@@ -228,9 +231,7 @@ class TransactionsServiceRandomTest {
             "100000,100",
             "100000,1000",
             "100000,10000",
-            "100000,100000",
-            "100000,1000000",
-            "100000,10000000"
+            "100000,100000" // max is 100k
     })
     void testTenAccountsWithRandomAmount(int max, int maxAccounts) {
         List<String> accountNumbers = new ArrayList<>();

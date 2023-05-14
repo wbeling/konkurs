@@ -1,4 +1,4 @@
-package pl.beling.konkurs.dtos.output;
+package pl.beling.konkurs.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Size;
@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.StringJoiner;
 
 /**
- * Account
+ * Account DTO - output
  */
 public class AccountDto {
     @JsonProperty("account")

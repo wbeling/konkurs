@@ -1,8 +1,8 @@
 package pl.beling.konkurs.service;
 
 import org.junit.jupiter.api.Test;
-import pl.beling.konkurs.dtos.input.PlayersDto;
-import pl.beling.konkurs.dtos.output.ClanDto;
+import pl.beling.konkurs.dtos.ClanDto;
+import pl.beling.konkurs.dtos.PlayersDto;
 
 import java.util.List;
 

@@ -6,15 +6,18 @@
 package pl.beling.konkurs.api;
 
 import jakarta.validation.Valid;
-import pl.beling.konkurs.dtos.output.ATMDto;
-import pl.beling.konkurs.dtos.input.TaskDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import pl.beling.konkurs.dtos.ATMDto;
+import pl.beling.konkurs.dtos.TaskDto;
 
 import java.util.List;
 
+/**
+ * API definition for ATMs
+ */
 @Validated
 public interface AtmsApi {
 

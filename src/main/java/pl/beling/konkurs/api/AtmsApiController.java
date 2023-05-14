@@ -1,14 +1,17 @@
 package pl.beling.konkurs.api;
 
-import pl.beling.konkurs.dtos.output.ATMDto;
-import pl.beling.konkurs.dtos.input.TaskDto;
-import pl.beling.konkurs.service.AtmsService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
+import pl.beling.konkurs.dtos.ATMDto;
+import pl.beling.konkurs.dtos.TaskDto;
+import pl.beling.konkurs.service.AtmsService;
 
 import java.util.List;
 
-@Controller
+/**
+ * REST Controller implementation for ATMs API
+ */
+@RestController
 public class AtmsApiController implements AtmsApi {
     private final AtmsService atmsService;
 

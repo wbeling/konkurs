@@ -1,14 +1,17 @@
 package pl.beling.konkurs.api;
 
-import pl.beling.konkurs.dtos.output.ClanDto;
-import pl.beling.konkurs.dtos.input.PlayersDto;
-import pl.beling.konkurs.service.OnlineGameService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
+import pl.beling.konkurs.dtos.ClanDto;
+import pl.beling.konkurs.dtos.PlayersDto;
+import pl.beling.konkurs.service.OnlineGameService;
 
 import java.util.List;
 
-@Controller
+/**
+ * REST Controller implementation for Online Games API
+ */
+@RestController
 public class OnlineGameApiController implements OnlineGameApi {
     private final OnlineGameService onlinegameService;
 

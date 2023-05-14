@@ -6,15 +6,18 @@
 package pl.beling.konkurs.api;
 
 import jakarta.validation.Valid;
-import pl.beling.konkurs.dtos.output.AccountDto;
-import pl.beling.konkurs.dtos.input.TransactionDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import pl.beling.konkurs.dtos.AccountDto;
+import pl.beling.konkurs.dtos.TransactionDto;
 
 import java.util.List;
 
+/**
+ * API Definition for Transactions
+ */
 @Validated
 public interface TransactionsApi {
 

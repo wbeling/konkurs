@@ -1,8 +1,8 @@
 package pl.beling.konkurs.service;
 
 import org.junit.jupiter.api.Test;
-import pl.beling.konkurs.dtos.input.TransactionDto;
-import pl.beling.konkurs.dtos.output.AccountDto;
+import pl.beling.konkurs.dtos.AccountDto;
+import pl.beling.konkurs.dtos.TransactionDto;
 
 import java.math.BigDecimal;
 import java.util.List;

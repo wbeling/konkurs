@@ -1,14 +1,17 @@
 package pl.beling.konkurs.api;
 
-import pl.beling.konkurs.dtos.output.AccountDto;
-import pl.beling.konkurs.dtos.input.TransactionDto;
-import pl.beling.konkurs.service.TransactionsService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
+import pl.beling.konkurs.dtos.AccountDto;
+import pl.beling.konkurs.dtos.TransactionDto;
+import pl.beling.konkurs.service.TransactionsService;
 
 import java.util.List;
 
-@Controller
+/**
+ * REST Controller implementation for Transactions API
+ */
+@RestController
 public class TransactionsApiController implements TransactionsApi {
     private final TransactionsService transactionsService;
 

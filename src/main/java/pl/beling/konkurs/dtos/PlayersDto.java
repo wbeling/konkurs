@@ -1,16 +1,17 @@
-package pl.beling.konkurs.dtos.input;
+package pl.beling.konkurs.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
-import pl.beling.konkurs.dtos.output.ClanDto;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.StringJoiner;
 
 /**
- * Players
+ * Players DTO - input
  */
 public class PlayersDto {
     @JsonProperty("groupCount")

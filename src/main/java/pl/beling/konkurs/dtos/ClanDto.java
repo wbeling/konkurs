@@ -1,4 +1,4 @@
-package pl.beling.konkurs.dtos.output;
+package pl.beling.konkurs.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Max;
@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Min;
 import java.util.StringJoiner;
 
 /**
- * Clan
+ * Clan DTO - used as input and output
  */
 public class ClanDto {
     @JsonProperty("numberOfPlayers")

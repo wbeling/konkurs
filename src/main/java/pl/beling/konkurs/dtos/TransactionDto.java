@@ -1,14 +1,13 @@
-package pl.beling.konkurs.dtos.input;
+package pl.beling.konkurs.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 import java.util.StringJoiner;
 
 /**
- * Transaction
+ * Transaction DTO - input
  */
 public class TransactionDto {
     @JsonProperty("debitAccount")
