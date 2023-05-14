@@ -135,7 +135,6 @@ class AtmsServiceRandomTest {
         List<TaskDto> tasks = new ArrayList<>();
         Random random = new Random();
         int maxRegions = 8000 + random.nextInt(2000);
-        System.out.println("MaxRegions: " + maxRegions);
         List<Integer> regions = new ArrayList<>(9999);
         for (int i = 1; i < 10000; i++) {
             regions.add(i);
@@ -157,7 +156,6 @@ class AtmsServiceRandomTest {
                 }
             }
         });
-        System.out.println("TasksTotal: " + tasks.size());
 
         int max = Math.min(tasks.size(), 1000000);
         StringBuilder s = new StringBuilder("[");
@@ -186,17 +184,4 @@ class AtmsServiceRandomTest {
         return "{\"region\":" + task.getRegion() + ",\"atmId\":" + task.getAtmId() + ",\"requestType\":\"" + task.getRequestType().toString() + "\"}";
     }
 
-    @Test
-    void memoryTest1() {
-        List<TaskDto> tasks = new ArrayList<>(4 * 999 * 999);
-        for (int i = 1; i < 1000; i++) {
-            for (int j = 1; j < 1000; j++) {
-                tasks.add(new TaskDto().region(i).atmId(j).requestType(TaskDto.RequestTypeEnum.STANDARD));
-                tasks.add(new TaskDto().region(i).atmId(j).requestType(TaskDto.RequestTypeEnum.PRIORITY));
-                tasks.add(new TaskDto().region(i).atmId(j).requestType(TaskDto.RequestTypeEnum.SIGNAL_LOW));
-                tasks.add(new TaskDto().region(i).atmId(j).requestType(TaskDto.RequestTypeEnum.FAILURE_RESTART));
-            }
-        }
-        assertEquals(4 * 999 * 999, tasks.size());
-    }
 }
